@@ -2,9 +2,16 @@ import React from 'react'
 import {
   Switch,
   Route,
-  withRouter
+  withRouter,
+  useLocation,
+  useRouteMatch
 } from "react-router-dom"
 import classNames from 'classnames'
+
+import {
+  TransitionGroup,
+  CSSTransition
+} from "react-transition-group"
 
 import EntryPage from '../entrypage'
 
@@ -22,7 +29,8 @@ import Restaurant from '../pages/Restaurant'
 
 function PageWrap(props) {
 
-  const pathname = props.location.pathname
+  const location = useLocation()
+  const pathname = location.pathname
 
   const cx = classNames({
     'apps': pathname === '/apps',
@@ -35,46 +43,83 @@ function PageWrap(props) {
     'entrypage': pathname === '/'
   })// .classNames
 
-
   return (
-    <main className={cx}>
 
-      <Header />
-      <Nav />
-
+    <Switch>
       {/* A <Switch> looks through its children <Route>s and
-          renders the first one that matches the current URL. */}
-      <Switch>
-        <Route path="/apps">
-          <Apps />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/contact">
-          <Contact />
-        </Route>
-        <Route path="/events">
-          <Events />
-        </Route>
-        <Route path="/gallery">
-          <Gallery />
-        </Route>
-        <Route path="/hotel">
-          <Hotel />
-        </Route>
-        <Route path="/restaurant">
-          <Restaurant />
-        </Route>
-        <Route path="/">
-          <EntryPage />
-        </Route>
-      </Switch>
+      renders the first one that matches the current URL. */}
+      
+      <Route path='/apps'>
+        <Pages />
+      </Route>
 
-    </main>
+      <Route path="/">
+        <EntryPage />
+      </Route>
+
+    </Switch>
+
 
   )// .return
 
 }// .PageWrap
 
-export default withRouter(PageWrap)
+export default PageWrap
+
+function Pages() {
+
+  const { path } = useRouteMatch()
+  const location = useLocation()
+
+  return (
+    <React.Fragment>
+
+      <Header />
+      <Nav />
+
+      <TransitionGroup>
+          {/*
+            This is no different than other usage of
+            <CSSTransition>, just make sure to pass
+            `location` to `Switch` so it can match
+            the old location as it animates out.
+          */}
+          <CSSTransition
+            key={location.key}
+            classNames="fade"
+            timeout={800}
+          >
+    
+            <Switch location={location}>
+          
+              <Route exact path='/apps'>
+                <Apps />
+              </Route>
+              <Route path={`${path}/about`}>
+                <About />
+              </Route>
+              <Route path={`${path}/contact`}>
+                <Contact />
+              </Route>
+              <Route path={`${path}/events`}>
+                <Events />
+              </Route>
+              <Route path={`${path}/gallery`}>
+                <Gallery />
+              </Route>
+              <Route path={`${path}/hotel`}>
+                <Hotel />
+              </Route>
+              <Route path={`${path}/restaurant`}>
+                <Restaurant />
+              </Route>
+          
+            </Switch>
+        </CSSTransition>
+        </TransitionGroup>
+
+    </React.Fragment>
+    
+  )// .return
+
+}// .Pages

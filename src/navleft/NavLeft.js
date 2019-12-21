@@ -9,22 +9,22 @@ export default function NavLeft() {
         <Link to="/apps">Apps</Link>
       </li>
       <li>
-        <Link to="/about">About</Link>
+        <Link to="/apps/about">About</Link>
       </li>
       <li>
-        <Link to="/hotel">Hotel</Link>
+        <Link to="/apps/hotel">Hotel</Link>
       </li>
       <li>
-        <Link to="/events">Events</Link>
+        <Link to="/apps/events">Events</Link>
       </li>
       <li>
-        <Link to="/restaurant">Restaurant</Link>
+        <Link to="/apps/restaurant">Restaurant</Link>
       </li>
       <li>
-        <Link to="/gallery">Gallery</Link>
+        <Link to="/apps/gallery">Gallery</Link>
       </li>
       <li>
-        <Link to="/contact">Contact</Link>
+        <Link to="/apps/contact">Contact</Link>
       </li>
 
     </ul>

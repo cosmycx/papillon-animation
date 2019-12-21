@@ -5,6 +5,7 @@ import {
 
 import PageWrap from './pagewrap'
 
+import './index.css'
 
 export default function App() {
   return (
